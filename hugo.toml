@@ -1,0 +1,42 @@
+baseURL = 'https://example.org/'
+locale = 'en-us'
+title = 'My IT Journal'
+theme = 'PaperMod'
+
+[params]
+ShowReadingTime = true
+ShowShareButtons = false
+ShowPostNavLinks = true
+
+[params.homeInfoParams]
+Title = "My IT Journal"
+Content = "A beginner's log of IT problems and fixes"
+
+[params.fuseOpts]
+isCaseSensitive = true
+minMatchCharLength = 2
+threshold = 0.4
+keys = ["title", "permalink", "summary", "content"]
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
+
+[[menus.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menus.main]]
+name = "Archive"
+url = "/archives/"
+weight = 2
+
+[[menus.main]]
+name = "Tags"
+url = "/tags/"
+weight = 3
+
+[[menus.main]]
+name = "Search"
+url = "/search/"
+weight = 4

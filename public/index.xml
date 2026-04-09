@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>My IT Journal</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on My IT Journal</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Apr 2026 13:48:47 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I set up my IT journal</title>
+      <link>http://localhost:1313/posts/my-first-post/</link>
+      <pubDate>Thu, 09 Apr 2026 13:48:47 +0300</pubDate>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <description>&lt;h2 id=&#34;why-i-started-this-blog&#34;&gt;Why I started this blog&lt;/h2&gt;
+&lt;p&gt;I am a beginner in IT and I want to document every problem I solve as I learn&lt;/p&gt;
+&lt;h2 id=&#34;what-i-plan-to-write-about&#34;&gt;What I plan to write about&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Linux &amp;amp; Windows Troubleshooting&lt;/li&gt;
+&lt;li&gt;Network issues&lt;/li&gt;
+&lt;li&gt;Tools I discover&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/archives/</guid>
+      <description>&lt;p&gt;-&amp;ndash;&lt;/p&gt;
+&lt;p&gt;title: &amp;ldquo;Archive&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;layout: &amp;ldquo;archives&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;url: &amp;ldquo;/archives/&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;summary: &amp;ldquo;archives&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;-&amp;ndash;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/search/</guid>
+      <description>&lt;p&gt;-&amp;ndash;
+title: &amp;ldquo;Search&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;layout: &amp;ldquo;search&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;url: &amp;ldquo;/search/&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;summary: &amp;ldquo;search&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;-&amp;ndash;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
