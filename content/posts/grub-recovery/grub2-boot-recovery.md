@@ -94,6 +94,7 @@ linux (hd0,gpt2)/boot/vmlinuz-6.17.0-19-generic root=/dev/sda2 ro
 initrd (hd0,gpt2)/boot/initrd.img-6.17.0-19-generic
 boot
 ```
+![GRUB shell](grub-shell.png)
 
 ---
 
@@ -103,6 +104,7 @@ On Debian/Ubuntu:
 ```bash
 sudo update-grub
 ```
+![GRUB conf file](grub.cfg.png)
 
 On RHEL/CentOS:
 ```bash
