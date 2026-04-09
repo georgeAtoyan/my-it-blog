@@ -1,12 +1,12 @@
-+++
-date = '2026-04-09T16:49:31+03:00'
-draft = false
-title = 'Grub2 Boot Recovery: Restoring a Server at 2AM'
+---
+date: '2026-04-09T16:49:31+03:00'
+draft: false
+title: 'Grub2 Boot Recovery: Restoring a Server at 2AM'
 
-tags: \["Linux", "GRUB2", "Boot Recovery", "Incident Response", "SysAdmin"]
+tags: ["Linux", "GRUB2", "Boot Recovery", "Incident Response", "SysAdmin"]
 
 summary: "A step-by-step account of recovering a production server that dropped into the GRUB2 rescue shell at 2AM, resolved within SLA."
-+++
+---
 
 
 
