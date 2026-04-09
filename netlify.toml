@@ -3,6 +3,6 @@ command = "hugo"
 publish = "public"
 
 [build.environment]
-HUGO_VERSION = "0.161.1"
+HUGO_VERSION = "0.160.0"
 HUGO_EXTENDED = "true"
 HUGO_ENV = "production"
