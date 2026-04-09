@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://my-it-blog.netlify.app/'
 locale = 'en-us'
 title = 'My IT Journal'
 theme = 'PaperMod'
