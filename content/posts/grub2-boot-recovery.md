@@ -10,246 +10,121 @@ summary: "A step-by-step account of recovering a production server that dropped 
 
 
 
-\## 🚨 The Alert
+## 🚨 The Alert
 
-> \*\*Time:\*\* 2:04 AM
-> \*\*Alert:\*\* PageDuty - server 'web-prod-03' unreachable
+**Time:** 2:04 AM  
+**Alert:** PagerDuty - server 'web-prod-03' unreachable  
 
-> \*\*SLA:\*\* Server must be back online within 60 minutes
+**SLA:** Server must be back online within 60 minutes  
 
+After attaching to the console, it was immediately clear the machine had dropped into the GRUB2 shell — it never made it to the OS.
 
+---
 
-After attaching to the console it was immediately clear the machine had dropped into the GRUB2 shell - it never made it to the OS.
-
-
-
-\--- 
-
-
-
-\## 🖥️ Environment
-
-
+## 🖥️ Environment
 
 | Detail | Value |
-
-|---|---|
-
+|--------|--------|
 | Server | web-prod-03 |
-
 | Root Partition | /dev/sda2 |
-
 | Kernel Location | /boot |
-
 | Target SLA | < 60 min |
 
+---
 
+## 🔍 What Went Wrong
 
-\---
+The GRUB2 configuration file `/boot/grub/grub.cfg` was missing or corrupted, so the bootloader had no instructions on where to find the kernel.
 
+**Lab Note:** To simulate this failure:
+```bash
+mv /boot/grub/grub.cfg /boot/grub/grub.cfg.bak
+```
 
+---
 
-\## 🔍 What Went Wrong
-
-
-
-The GRUB2 configuration file `/boot/grub/grub.cfg' was missing or corrupted, so the bootloader had no instructions on where to find the kernel. Instead of booting normally, the system dropped into the GRUB shell waiting for manual input.
-
-
-
-> \*\*Lab Note:\*\* To simulate this failure, grub.cfg was intentionally corrupted
-
-> by renaming it: `mv /boot/grub/grub.cfg /boot/grub/grub.cfg.bak'
-
-
-
-\---
-
-
-
-\## ⏱️ Incident Timeline
-
-
+## ⏱️ Incident Timeline
 
 | Time | Action |
-
-|---|---|
-
+|------|--------|
 | 02:04 | PagerDuty alert received |
-
-| 02:07 | Attached to console, confirmed GRUB shell |
-
+| 02:07 | Attached to console |
 | 02:11 | Root partition identified |
+| 02:18 | Server back online |
+| 02:35 | GRUB config regenerated |
 
-| 02:18 | Server back online via manual boot |
+---
 
-| 02:35 | grub.cfg regenerated, fix made permanent |
+## 🛠️ Step-by-Step Recovery
 
-
-
-\---
-
-
-
-\## 🛠️ Step-by-Step Recovery
-
-
-
-\### Step 1 - List Available Block Devices
-
-
-
-Dropped into the GRUB shell, begin by listing block devices to orient myself and identify available partitions. 
-
-
-
+### Step 1 — List Available Devices
 ```bash
-
 ls
-
 ```
+**Output:** (hd0) (hd0,gpt1) (hd0,gpt2)
 
-\*\*Output:\*\* (hd0) (hd0,gpt1) (hd0,gpt2)
+---
 
-
-
-\--- 
-
-
-
-\### Step 2 - Probe Partitions to Find the Linux Root Filesystem
-
-
-
-Inspect each partition to locate valid `/boot` directory containing the kernel and initrd images.
-
-
-
+### Step 2 — Find the Root Filesystem
 ```bash
-
 ls (hd0,gpt2)/boot/
-
 ```
+**Output:** vmlinuz + initrd  
 
+Root filesystem identified: (hd0,gpt2)
 
+---
 
-\*\*Output:\*\* vmlinuz-6.17.0.19-generic initrd.img-6.17.0-19-generic
-
-
-
-✅ Found it - Root Filesystem is on `(hd0,gpt2)`
-
-
-
-\---
-
-
-
-\### Step 3 - Set Root and Prefix, Load Normal Mode
-
-
-
-Point GRUB at the correct partition, set the module search path, then load the normal module to restore the standard boot menu.
-
-
-
+### Step 3 — Load Normal Mode
 ```bash
-
 set root=(hd0,gpt2)
-
 set prefix=(hd0,gpt2)/boot/grub
-
 insmod normal
-
 normal
-
 ```
 
+If the boot menu appears, select your kernel and boot normally.
 
+---
 
-If the boot menu appears - select your kernel and boot normally.
-
-
-
-\---
-
-### Step 4 - Manual Boot (If Normal Mode Fails)
-
-
-If Step 3 fails, boot manually by loading the kernel and initrd directly with explicit paths.
-
-
-
+### Step 4 — Manual Boot (If Needed)
 ```bash
-
-insmod Linux
-
+insmod linux
 linux (hd0,gpt2)/boot/vmlinuz-6.17.0-19-generic root=/dev/sda2 ro
-
 initrd (hd0,gpt2)/boot/initrd.img-6.17.0-19-generic
 boot
-
 ```
 
+---
 
+### Step 5 — Make Fix Permanent
 
-\---
-
-### Step 5 - Regenerate GRUB Config to Prevent Recurrence
-
-
-
-Once booted into the OS, rebuild `grub.cfg` and update the bootloader to make the fix permanent.
-
-
-
-``bash
-
+On Debian/Ubuntu:
+```bash
 sudo update-grub
-
 ```
 
-
-
-OR on RHEL/CentOS based systems:
+On RHEL/CentOS:
 ```bash
-
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-
 ```
 
-
-
-Verify the config file now exists:
+Verify:
 ```bash
-
 ls -lh /boot/grub/grub.cfg
-
 ```
 
+---
 
+## ✅ Resolution
 
-\---
+Server restored at **02:18** (14 minutes after alert).  
+Permanent fix completed at **02:35**, within SLA.
 
+---
 
+## 📚 Lessons Learned
 
-\## ✅ Resolution
-
-
-
-Server `web-prod-03` was back online at \*\*02:18\*\* - 14 min after the alert. The permanent fix was completed at 02:35, well withing the 60 min SLA.
-
-
-
-\---
-
-
-
-\## 📚 Lessons Learned
-
-
-
-* Always verify `/boot/grub/grub.cfg` exists after kernel updates
-* GRUB shell is recoverable - knowing these commands saves critical time
-* Document your partition layout (`lsblk`) before incidents happen
-
+- Always verify `/boot/grub/grub.cfg` after kernel updates  
+- GRUB shell recovery is a critical skill  
+- Document partition layout (`lsblk`) before incidents  
