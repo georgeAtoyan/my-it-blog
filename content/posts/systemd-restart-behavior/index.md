@@ -1,7 +1,7 @@
 ---
 date: '2026-04-14'
 draft: false
-title: 'Systemd Restart Behavior: Why Restart=on-failure Didn't Work'
+title: "Systemd Restart Behavior: Why Restart=on-failure Didn't Work"
 
 tags: ["Linux", "Systemd", "SysAdmin"]
 ---
