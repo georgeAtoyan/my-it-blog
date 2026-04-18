@@ -211,7 +211,7 @@ I checked the file with ls -l /project/data/report.txt and saw it is owned by ad
 Alice is a member of the devs group, but the file permissions are set to 600, which means the group has no permissions.
 Therefore, even though alice is in the correct group, she cannot read the file because group access is disabled.
 
-![debug](debug.txt)
+![debug](debug.png)
 
 ---
 
