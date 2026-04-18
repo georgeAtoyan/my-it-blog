@@ -237,7 +237,7 @@ Deletion Depends on Directory, Not File
 
 SetGID Enables Collaboration
 - Ensures all new files inherit the directory's group
-- Prvents inconsistent group owenrship in shared environments
+- Prevents inconsistent group ownership in shared environments
 
 ---
 
