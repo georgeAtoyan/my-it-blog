@@ -225,7 +225,7 @@ File vs Directory Permissions
 
 Group Membership ≠ Access
 - Being in the correct group does not guarantee access
-- Access depends on actual permission vits (rwx)
+- Access depends on actual permission bits (rwx)
 
 ---
 
