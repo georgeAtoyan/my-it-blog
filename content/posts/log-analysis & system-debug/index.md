@@ -121,7 +121,7 @@ Check logs (may be unreliable):
 sudo systemctl -xe
 ```
 
-![journalctl](journalctl -xe.png)
+![journalctl](journalctl-xe.png)
 
 Find what filled the disk:
 
