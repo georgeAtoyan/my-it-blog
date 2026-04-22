@@ -51,40 +51,12 @@ This ensures both machines are on the same isolated Layer 2 network.
 
 ### Step 3 - Assign Static IPs
 
-server_01 configuration
+server_01 and server_02 configuration
 
-Edit Netplan:
-
-```bash
-sudo nano /etc/netplan/01-netcfg.yaml
-
-network:
-  version: 2
-  ethernets:
-   enp0s3:
-    dhcp4: yes
-   enp0s8:
-    dhcp4: no
-    addresses:
-     - 192.168.10.10/24
-
-sudo netplan apply
-```
-server_02 configuration
+Edit netplan:
 
 ```bash
 sudo nano /etc/netplan/01-netcfg.yaml
-
-network:
-  version: 2
-  ethernets:
-   enp0s3:
-    dhcp4: yes
-   enp0s8:
-    dhcp4: no
-    addresses:
-     - 192.168.10.20/24
-
 sudo netplan apply
 ```
 
