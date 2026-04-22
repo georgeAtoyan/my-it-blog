@@ -1,4 +1,4 @@
-baseURL = 'https://my-it-blog.netlify.app/'
+baseURL = 'https://my-it-blog.vercel.app/'
 locale = 'en-us'
 title = 'My IT Journal'
 theme = 'PaperMod'
