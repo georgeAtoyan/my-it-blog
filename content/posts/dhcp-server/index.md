@@ -160,7 +160,7 @@ Expected outcome:
 systemctl status isc-dhcp-server
 ```
 
-!(DHCP_Failure)[dhcp_server_failure.png]
+![DHCP_Failure](dhcp_server_failure.png)
 
 ---
 
