@@ -345,6 +345,7 @@ kill <child_PID>
 ```bash
 ps -fp <parent_PID>
 ```
+![Parent Process](exp2-ps-fp-parent.png)
 
 **Conclusion:** The script (restart_cpu.sh) is responsible for restarting child. The parent process (./restart_cpu.sh) is the true source of persistence
 
