@@ -560,7 +560,7 @@ pstree -p | grep systemd-helper
 kill <restart_cpu.sh PID>
 ``` 
 
-![](exp3-pstree-systemd-helper.png)
+![Pstree](exp3-pstree-systemd-helper.png)
 
 
 **Observation**
