@@ -524,7 +524,7 @@ Disk activity is real but secondary/bursty
 
 ---
 
-## 🎯 Hypotheses
+## 🎯 Hypothesis
 
 **H1 - CPU is the primary bottleneck**
 
