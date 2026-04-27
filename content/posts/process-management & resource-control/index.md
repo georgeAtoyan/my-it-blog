@@ -364,7 +364,233 @@ kill <parent PID>
 - CPU usage drops
 
 ![Htop](exp2-htop-resolved.png)
+
 ![Uptime](exp2-uptime-balanced.png)
 
 ---
 
+## 🧪 Experiment (Level 3) - Misleading Signal: Disk I/O Noise
+
+### 🛠️ Setup (Misleading signal)
+
+```bash
+nano disk_worker
+chmod +x disk_worker
+```
+![Script](exp3-disk-worker.png)
+
+**Run:**
+
+```bash
+./disk_worker &
+./restart_cpu.sh &
+```
+---
+
+## 🔎 Investigation
+
+### Step 1 - Check System Load
+
+```bash
+uptime
+```
+![Uptime](exp3-uptime-abnormal.png)
+
+**Observation**
+Load average is elevated
+
+**Conclusion:**
+System is under load and requires investigation
+
+---
+
+### Step 2 - Monitor Processes
+
+```bash
+htop
+```
+![Htop](exp3-htop-abnormal.png)
+
+**Observation**
+- ./systemd-helper ≈ 100% CPU
+- dd ≈ ~0.8% CPU
+- Memory usage stable (~161MB/2GB)
+
+**Conclusion:**
+CPU saturation is dominated by a single process (systemd-helper). Disk-related processes (dd) exist but contribute minimal CPU usage. Initial-signal: CPU-bound issue
+
+---
+
+### Step 3 - Cross-check top CPU consumers
+
+```bash
+ps aux --sort=-%cpu | head
+```
+
+![top_cpu_process](exp3-ps-aux.png)
+
+**Observation**
+- ./systemd-helper ≈ 88% CPU
+- dd ≈ ~20% CPU
+
+**Conclusion:**
+CPU usage confirms:
+- systemd-helper is a consistent high consumer
+- dd contributes CPU intermittently (burst behavior)
+
+---
+
+### Step 4 - Check disk activity 
+
+```bash
+iotop-c
+```
+![Iotop](exp3-iotop.png)
+
+**Observation**
+- Multiple dd processes appear
+- I/O usage visibly active (graph column moving)
+
+**Conclusion:**
+Disk I/O is actively being generated, primarily by dd. However, presence of activity ≠ proof of bottleneck.
+
+---
+
+### Step 5 - Detect process behavior pattern
+
+```bash
+pgrep -a dd
+```
+
+![Pgrep](exp3-pgrep-dd.png)
+
+**Observation**
+- Multiple PIDs for dd
+- Processes appear and disappear rapidly
+
+**Conclusion:**
+dd is a short-lived worker process, likely spawned in a loop. It's not a stable root process -> must trace parent
+
+---
+
+### Step 6: Trace process origin
+
+**Method A - Real time capture**
+
+```bash
+watch -n 0.5 "ps -o pid,ppid,cmd -C dd"
+```
+
+![Method A](exp3-watch.png)
+
+---
+
+**Method B - Process tree**
+
+```bash
+pstree -p | grep dd
+```
+
+![ps_tree](exp3-pstree-dd.png)
+
+---
+
+**Method C - Manual tracing**
+
+```bash
+ps -fp <PPID>
+```
+
+![ps-fp](exp3-ps-fp.png)
+
+**Observation**
+- dd processes originate from a parent script (disk-worker)
+
+**Conclusion:**
+dd is a child process, not root cause. A controller script is responsible for generating disk load.
+
+---
+
+## 🧠 Interim Analysis
+
+Signals observed:
+- CPU -> heavily saturated by systemd-helper
+- Disk -> active due to dd
+- Memory -> stable
+
+**Interpretation:**
+CPU load is continuous and dominant
+Disk activity is real but secondary/bursty
+
+---
+
+## 🎯 Hypotheses
+
+**H1 - CPU is the primary bottleneck**
+
+System slowdown is caused by systemd-helper
+
+**H2 - Disk I/O is the primary bottleneck**
+
+System slowdown is caused by dd activity
+
+---
+
+### Test Disk Hypothesis (H2)
+
+``bash
+kill <disk_worker PID>
+```
+
+**Observation**
+- dd processes disappear
+- Disk activity drops
+- systemd-helper still consuming ~ 100% CPU
+- System remains slow
+
+**Conclusion:**
+Disk I/O is not the primary cause, it's a secondary signal (noise)
+
+---
+
+### Test CPU Hypothesis (H1)
+
+```bash
+pstree -p | grep systemd-helper
+kill <restart_cpu.sh PID>
+``` 
+
+![](exp3-pstree-systemd-helper.png)
+
+
+**Observation**
+- systemd-halper disappears
+- CPU usage drops significantly
+- System responsiveness improves immediately
+
+![Htop](exp3-htop-balanced.png)
+
+
+**Conclusion:**
+CPU saturation is the PRIMARY cause. systemd-helper is the root problem.
+
+---
+
+## 🧠 Final Diagnosis
+
+Primary cause -> CPU saturation (systemd-helper)
+Secondary noise -> Disk I/O (dd via disk-worker)
+
+---
+
+## Debugging Workflow
+
+1. Detect system stress (uptime)
+2. Identify dominant resource (htop)
+3. Cross-check processes (ps)
+4. Identify process behavior (stable vs bursty)
+5. Trace parent processes (pstree / watch)
+6. Form hypothesis
+7. Test by removing one factor at a time
+8. Observe system response
+9. Confirm root cause
