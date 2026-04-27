@@ -382,8 +382,8 @@ chmod +x disk_worker
 **Run:**
 
 ```bash
-./disk_worker &
-./restart_cpu.sh &
+./disk_worker > /dev/null 2>&1 &
+./restart_cpu.sh > /dev/null 2>&1 &
 ```
 ---
 
