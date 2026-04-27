@@ -538,7 +538,7 @@ System slowdown is caused by dd activity
 
 ### Test Disk Hypothesis (H2)
 
-``bash
+```bash
 kill <disk_worker PID>
 ```
 
