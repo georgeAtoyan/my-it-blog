@@ -564,7 +564,7 @@ kill <restart_cpu.sh PID>
 
 
 **Observation**
-- systemd-halper disappears
+- systemd-helper disappears
 - CPU usage drops significantly
 - System responsiveness improves immediately
 
@@ -578,8 +578,8 @@ CPU saturation is the PRIMARY cause. systemd-helper is the root problem.
 
 ## 🧠 Final Diagnosis
 
-Primary cause -> CPU saturation (systemd-helper)
-Secondary noise -> Disk I/O (dd via disk-worker)
+- Primary cause -> CPU saturation (systemd-helper)
+- Secondary noise -> Disk I/O (dd via disk-worker)
 
 ---
 
