@@ -709,18 +709,116 @@ kill <delayed_start.sh PID>
 
 ![Recovery](exp4-htop-recover.png)
 
+---
+
+## 🧪 Experiment (Level 5) - Resource Prioritization
+
+## 📌 Objective
+To understand how Linux CPU scheduling priority affects process behavior under load.
+
+---
+
+## ⚙️ Setup
+
+### Step 1 - Start normal priority CPU process (baseline)
+
+```bash
+./systemd-helper &
+```
+
+**Default priority:**
+Normal CPU scheduling priority (0)
+
+---
+
+Step 2 - Start low-priority CPU process
+
+```bash
+nice -n 15 ./systemd-helper &
+```
+
+**Meaning:**
+- nice 15 = lower priority than default
+- scheduler deprioritizes this process under load
+
+---
+
+## 🔍 Investigation
+
+### Step 1 - Observe CPU behavior
+
+```bash
+htop
+```
+
+![Htop](exp5-htop-2proc.png)
+
+**Observation**
+- Process (NI = 0) -> ~98% CPU
+- Process (NI = 15) -> ~3% CPU
+
+**Conclusion:**
+Under CPU saturation, the scheduler allocates significantly more CPU time to the process with lower nice value (higher scheduling priority).
+
+---
+
+### Step 2 - Inspect process priority
+
+```bash
+ps -o pid,ni,pri,cmd -C systemd-helper
+```
+
+![Process](exp5-process2.png)
+
+**Observation**
+- NI = 0 -> PRI ≈ 19
+- NI = 15 -> PRI ≈ 4
 
 
+**Conclusion:**
+ps PRI represents the kernel's internal scheduling priority, which is dynamically derived from the niceness value. It is not directly comparable to htop PR, which uses a simplified user-level mapping (PR ≈ 20 + NI)
 
+---
 
+### Step 3 - Apply system stress 
 
+Start additional load:
 
+```bash
+./systemd-helper &
+```
 
+![Htop](exp5-htop-3proc.png)
 
+**Observation**
+- with increased load, CPU competition becomes more visible
+- NI = 0 processes consistently dominate CPU usage
+- NI = 15 process receives significantly fewer CPU time slices
 
+**Concluion:**
+Under high system contention, the scheduler enforces priority dofferences more aggressively, making niceness effects clearly observable. 
 
+---
 
+### Step 4 - Validate CPU distribution
 
+```bash
+ps -eo pid,ni,pri,pcpu,cmd | grep systemd-helper
+```
 
+![Process](exp5-process3.png)
 
+**Observation**
+- NI = 0 processes -> higher %CPU
+-  NI = 15 process -> significantly lower %CPU
 
+**Conclusion:**
+CPU usage distribution confirms scheduler bias: lower nice values receive more CPU time under load, and this difference becomes measurable over time.
+
+---
+
+## 🧠 Final Insight
+- htop shows real-time CPU distribution
+- ps PRI shows kernel scheduling priority
+- nice only influences CPU scheduling weight, not execution capability
+- Differences become visible only under CPU contention
