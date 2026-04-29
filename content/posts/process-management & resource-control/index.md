@@ -594,3 +594,133 @@ CPU saturation is the PRIMARY cause. systemd-helper is the root problem.
 7. Test by removing one factor at a time
 8. Observe system response
 9. Confirm root cause
+
+---
+
+## 🧪 Experiment (Level 4) - Delayed Failure
+
+### 🛠️ Setup (Delayed Failure)
+
+1. Create delayed CPU worker
+
+```bash
+nano analytics_worker.py
+chmod +x analytics_worker.py
+```
+
+![analytics-worker](exp4-analytics-worker.png)
+
+2. Create delayed launcher
+
+```bash
+nano delayed_start.sh
+chmod +x delayed_start.sh
+./delayed_start.sh > /dev/null 2>&1 &
+```
+
+![Script](exp4-delayed-script.png)
+
+---
+
+## 🧠 Phase 1 — Initial State
+
+```bash
+htop
+ps aux --sort=-%cpu | head
+```
+![Htop](exp4-htop-baseline.png)
+
+![Process](exp4-ps-aux-baseline.png)
+
+**Observation**
+- System is responsive
+- CPU normal
+- No obvious suspicious processes
+
+**Conclusion:**
+- No immediate issue detected
+- System appears healthy
+
+---
+
+## ⏱️ Phase 2 — Degradation State
+
+```bash
+htop
+ps aux --sort=-%cpu | head
+```
+
+![Htop abnormal](exp4-htop-abnormal.png)
+
+![Process abnormal](exp4-ps-aux-abnormal.png)
+
+**Observation**
+- analytics_worker.py now consuming ~100% CPU
+
+**Conclusion:**
+- Issue is time-triggered, not constant
+- Requires correlation with recent activity
+
+---
+
+## 🔎 Investigation
+
+### Step 1 - Identify new processes
+
+```bash
+ps -eo pid,lstart,cmd --sort=start_time | tail
+```
+
+![Processes](exp4-ps-eo.png)
+
+**Observation**
+- analytics_worker.py started recently
+
+**Conclusion:**
+Newly started process correlates with system degradation
+
+---
+
+### Step 2 - Trace origin
+
+```bash
+ps -fp <PID>
+pstree -p
+```
+
+![Process Tree](exp4-pstree.png)
+
+**Observation**
+- Parent process (delayed_start.sh)
+
+**Conclusion:**
+Root cause is delayed execution script, not just the worker
+
+---
+
+## ✅ Remediation
+
+Kill either child or parent process
+
+```bash
+kill <analytics_worker PID>
+kill <delayed_start.sh PID>
+```
+
+![Recovery](exp4-htop-recover.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
