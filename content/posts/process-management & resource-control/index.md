@@ -754,8 +754,8 @@ htop
 ![Htop](exp5-htop-2proc.png)
 
 **Observation**
-- Process (NI = 0) -> ~98% CPU
-- Process (NI = 15) -> ~3% CPU
+- Process (NI = 0) -> ~100% CPU
+- Process (NI = 15) -> ~5% CPU
 
 **Conclusion:**
 Under CPU saturation, the scheduler allocates significantly more CPU time to the process with lower nice value (higher scheduling priority).
