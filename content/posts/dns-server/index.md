@@ -127,7 +127,7 @@ sudo nano /etc/resolv.conf
 
 - dig myapp.local -> communications error to 8.8.8.8#53, timed out
 - ping -> temporary failure in name resolution
-- ping 192.168.10.10 
+- ping 192.168.10.10 -> ✅ works
 
 ![Break1](break1-result.png)
 
@@ -172,7 +172,7 @@ sudo systemctl restart dnsmasq
 Run from client VM:
 - dig myapp.local -> 192.168.10.99
 - ping myapp.local -> fails (Destination Host Unreachable)
-- ping 192.168.10.10 -> works 
+- ping 192.168.10.10 -> ✅ works 
 
 ![Break2](break2-dig-debug.png)
 
