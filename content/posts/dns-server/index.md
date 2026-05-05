@@ -3,7 +3,7 @@ date: '2026-05-05'
 draft: false
 title: "DNS Lab - Dnsmasq, Client resolver, Caching"
 
-tags: ["linux", "sysadmin", "dns", "dnsmasq"]
+tags: ["linux", "sysadmin", "dns", "dnsmasq", "systemd", "troubleshooting", "caching"]
 ---
 
 # 🧪 DNS Lab
