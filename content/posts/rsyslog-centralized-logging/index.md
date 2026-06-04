@@ -27,7 +27,7 @@ Build a centralized logging environment where:
 
 ## Environment
 - OS: Ubuntu
-- Tools: 
+- Tools: rsyslog
 
 ---
 
