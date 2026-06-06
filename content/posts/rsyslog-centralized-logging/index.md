@@ -27,7 +27,7 @@ Build a centralized logging environment where:
 
 ## Environment
 - OS: Ubuntu
-- Tools: 
+- Tools: rsyslog
 
 ---
 
@@ -42,10 +42,10 @@ sudo systemctl status rsyslog
 
 ### Enable UDP Syslog reception and restart the rsyslog service
 
-'''bash
+```bash
 sudo nano /etc/rsyslog.conf
 sudo systemctl restart rsyslog
-'''
+```
 
 ![udp_enabled](udp_enabled.png)
 
