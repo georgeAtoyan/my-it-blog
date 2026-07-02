@@ -3,7 +3,7 @@ date: '2026-07-02'
 draft: false
 title: "Private DNS Infrastructure with BIND9"
 
-tags: ["linux", "sysadmin", "dns", "bind9", "soa", "nginx", "dns zone" ]
+tags: ["Linux", "System Administration", "DNS", "BIND9", "SOA", "Nginx", "DNS Zone", "Name Resolution", "Authoritative DNS", "NS Records" ]
 ---
 
 # DNS Lab
