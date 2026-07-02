@@ -59,7 +59,7 @@ sudo nano /etc/bind/named.conf.local
 sudo cp /etc/bind/db.local /etc/bind/db.company.lab
 sudo nano /etc/bind/db.company.lab
 ```
-![zone-file](zone-file.png)
+![zone](zone.png)
 
 ---
 
