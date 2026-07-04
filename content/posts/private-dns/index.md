@@ -6,7 +6,7 @@ title: "Private DNS Infrastructure with BIND9"
 tags: ["Linux", "System Administration", "DNS", "BIND9", "SOA", "Nginx", "DNS Zone", "Name Resolution", "Authoritative DNS", "NS Records" ]
 ---
 
-# DNS Lab
+# Private DNS Infrastructure with BIND9
 
 ## Objective
 Build a private DNS infrastructure using BIND9 where:

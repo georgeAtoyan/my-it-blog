@@ -6,7 +6,7 @@ title: "Hosting Multiple Websites on One Server Using Nginx"
 tags: ["Linux", "System Administration", "DNS", "BIND9", "Host Header", "Nginx", "DNS Zone", "Name Resolution", "Server Blocks"]
 ---
 
-# DNS Lab
+# Hosting Multiple Websites on One Server Using Nginx
 
 ## Objective
 Host multiple websites on a single web server by combining:
