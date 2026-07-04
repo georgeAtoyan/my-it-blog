@@ -34,8 +34,8 @@ By the end of this lab, the DNS server will support both:
 
 This lab builds upon the following previous labs:
 
-* Building a Private DNS Infrastructure with BIND9
-* Hosting Multiple Websites on One Server Using Nginx Virtual Hosts
+* Private DNS Infrastructure with BIND9
+* Hosting Multiple Websites on One Server Using Nginx
 
 The following components are assumed to already be configured:
 
