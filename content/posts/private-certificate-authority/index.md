@@ -197,7 +197,7 @@ curl http://www.company.lab
 
 NOTE: The `-k` option tells `curl` to ignore the CA verification.
 
---
+---
 
 ## Phase 9 - Trust the Certificate Authority
 
