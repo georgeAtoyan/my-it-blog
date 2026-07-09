@@ -20,7 +20,7 @@ Configure a Secondary DNS server that automatically replicates DNS zones from th
 
 ## Network Topology
 
-![dns-tolopogy](dns-topology.png)
+![dns-tolopogy](topology.png)
 ---
 
 ## Prerequisites
